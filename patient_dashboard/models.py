@@ -29,12 +29,44 @@ class BloodSample(models.Model):
     blood_pressure = models.FloatField()
     weight = models.FloatField() #should this go to patient?
     blood_draw_volume = models.FloatField()
+"""
+Analysis is an abstract class because the fields
+are common (same name) between the commercial and 
+chronus tables
+"""
+class CBCAnalysis(models.Model):
+    class Meta:
+        abstract = True
 
-class CommercialAnalysis(models.Model):
+    wbc = models.FloatField()
+    neu = models.FloatField()
+    lym = models.FloatField()
+    mono = models.FloatField()
+    eos = models.FloatField()
+    baso = models.FloatField()
+
+    rbc = models.FloatField()
+    hgb = models.FloatField()
+    hct = models.FloatField()
+    mcv = models.FloatField()
+    mch = models.FloatField()
+    mchc = models.FloatField()
+    rdw = models.FloatField()
+
+    plt = models.FloatField()
+    mpv = models.FloatField()
+    pct = models.FloatField()
+    pdw = models.FloatField()
+
+class CommercialAnalysis(CBCAnalysis):
     pass
-class ChronusAnalysis(models.Model):
+class ChronusAnalysis(CBCAnalysis):
     pass
-class CMPCommercialAnalysis(models.Model):
+class CMPAnalysis(models.Model):
+    class Meta:
+        abstract = True
     pass
-class CMPChronusAnalysis(models.Model):
+class CMPCommercialAnalysis(CMPAnalysis):
+    pass
+class CMPChronusAnalysis(CMPAnalysis):
     pass
