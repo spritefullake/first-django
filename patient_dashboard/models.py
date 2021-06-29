@@ -30,13 +30,20 @@ class BloodSample(models.Model):
     weight = models.FloatField() #should this go to patient?
     blood_draw_volume = models.FloatField()
 """
-Analysis is an abstract class because the fields
+CBC means Comprehensive Blood Count.
+CBCAnalysis is an abstract class because the fields
 are common (same name) between the commercial and 
-chronus tables
+chronus tables.
 """
 class CBCAnalysis(models.Model):
     class Meta:
         abstract = True
+
+    blood_sample = models.ForeignKey(
+        BloodSample,
+        on_delete = models.CASCADE
+    )
+    created = models.DateTimeField(auto_now_add=True)
 
     wbc = models.FloatField()
     neu = models.FloatField()
@@ -62,11 +69,40 @@ class CommercialAnalysis(CBCAnalysis):
     pass
 class ChronusAnalysis(CBCAnalysis):
     pass
+"""
+The Common Comprehensive Metabolic Panel (CMP) Fields.
+Note this is an abstract class.
+"""
 class CMPAnalysis(models.Model):
     class Meta:
         abstract = True
-    pass
+
+    blood_sample = models.ForeignKey(
+        BloodSample,
+        on_delete = models.CASCADE
+    )
+    created = models.DateTimeField(auto_now_add=True)
+
+    na_plus = models.FloatField()
+    k_plus = models.FloatField()
+    tCO2 = models.FloatField()
+    cl_minus = models.FloatField()
+    glu = models.FloatField()
+    ca = models.FloatField()
+    bun = models.FloatField()
+    cre = models.FloatField()
+    alp = models.FloatField()
+    ast = models.FloatField()
+    tbil = models.FloatField()
+    alb = models.FloatField()
+    tp = models.FloatField()
+
+    qc = models.FloatField()
+    hem = models.FloatField()
+    lip = models.FloatField()
+    ict = models.FloatField()
 class CMPCommercialAnalysis(CMPAnalysis):
-    pass
+    disc_lot_number = models.IntegerField()
+    serial_number = models.IntegerField()
 class CMPChronusAnalysis(CMPAnalysis):
     pass
