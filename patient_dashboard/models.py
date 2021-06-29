@@ -31,11 +31,11 @@ class BloodSample(models.Model):
     blood_draw_volume = models.FloatField()
 """
 CBC means Comprehensive Blood Count.
-CBCAnalysis is an abstract class because the fields
+CBC is an abstract class because the fields
 are common (same name) between the commercial and 
 chronus tables.
 """
-class CBCAnalysis(models.Model):
+class CBC(models.Model):
     class Meta:
         abstract = True
 
@@ -65,15 +65,15 @@ class CBCAnalysis(models.Model):
     pct = models.FloatField()
     pdw = models.FloatField()
 
-class CommercialAnalysis(CBCAnalysis):
+class CommercialCBC(CBC):
     pass
-class ChronusAnalysis(CBCAnalysis):
+class ChronusCBC(CBC):
     pass
 """
 The Common Comprehensive Metabolic Panel (CMP) Fields.
 Note this is an abstract class.
 """
-class CMPAnalysis(models.Model):
+class CMP(models.Model):
     class Meta:
         abstract = True
 
@@ -101,8 +101,8 @@ class CMPAnalysis(models.Model):
     hem = models.FloatField()
     lip = models.FloatField()
     ict = models.FloatField()
-class CMPCommercialAnalysis(CMPAnalysis):
+class CommercialCMP(CMP):
     disc_lot_number = models.IntegerField()
     serial_number = models.IntegerField()
-class CMPChronusAnalysis(CMPAnalysis):
+class ChronusCMP(CMP):
     pass
